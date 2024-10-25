@@ -2,29 +2,47 @@ doubleMe x = x + x
 
 doubleUs x y = doubleMe x + doubleMe y
 
-doubleIfBig x
-  | x < 100 = x
-  | otherwise = doubleMe x
+doubleSmallNumber x = if x > 100
+  then x
+  else x*2
 
-fib num
-  | num <= 0 = 0
-  | num == 1 = 1
-  | otherwise = fib (num - 2) + fib (num - 1)
+uc' cs = [ c | c <- cs, c `elem` ['A'..'Z']]
 
-pwr :: (Eq a, Num a) => a -> a -> a
-pwr n p
-  | p == 1 = n
-  | otherwise = n * pwr n (p - 1)
+fac :: (Integral a) => a -> a
+fac 0 = 1
+fac n = n * fac (n - 1)
 
-quicksort :: (Ord a) => [a] -> [a]
-quicksort [] = []
-quicksort (x : xs) =
-  let smallSort = quicksort [a | a <- xs, a <= x]
-      bigSort = quicksort [a | a <- xs, a > x]
-   in smallSort ++ [x] ++ bigSort
+fst' :: (a, b, c) -> a
+fst' (x, _, _) = x
 
-filterCapitals xs = [x | x <- xs, x `elem` ['a' .. 'z']]
+snd' :: (a, b, c) -> b
+snd' (_, y, _) = y
 
-filterNumbers s = [x | x <- s, x `elem` [1 .. 10]]
+thd' :: (a, b, c) -> c
+thd' (_, _, z) = z
 
-filterLetters s = [x | x <- s, x `elem` ['a' .. 'z']]
+head' :: [a] -> a
+head' [] = error "Empty list given"
+head' (x:_) = x
+
+tail' :: [a] -> [a]
+tail' [] = error "Empty list given"
+tail' (_:xs) = xs
+
+bmiTell :: (RealFloat a) => a -> a -> String
+bmiTell weight height
+  | bmi <= skinny = "Underweight"
+  | bmi <= normal = "Average"
+  | bmi <= fat = "Overwright"
+  | otherwise = "NOT SURE"
+  where bmi = weight / (height ^ 2)
+        (skinny, normal, fat) = (18.5, 25, 30)
+
+initials :: String -> String -> String
+initials firstname lastname = [f] ++ ". " ++ [l]
+  where (f:_) = firstname
+        (l:_) = lastname
+
+calcBmis :: (RealFloat a) => [(a, a)] -> [a]
+calcBmis xs = [ bmi w h | (w, h) <- xs ]
+  where bmi weight height = weight / (height ^ 2)
