@@ -17,3 +17,69 @@ fib :: Integer -> Integer
 fib 0 = 0
 fib 1 = 1
 fib n = fib (n-1) + fib (n-2)
+
+fac' :: Integer -> Integer
+fac' 0 = 1
+fac' x = fac' (x-1) * x
+
+sum' :: Integer -> Integer
+sum' 0 = 0
+sum' x = sum' (x-1) + x
+
+fst' :: (a,b,c) -> a
+fst' (a, _, _) = a
+
+snd' :: (a,b,c) -> b
+snd' (_, b, _) = b
+
+lst' :: (a,b,c) -> c
+lst' (_, _, c) = c
+
+head' :: [x] -> x
+head' [] = error "NOPE"
+head' (x:xs) = x
+
+age' :: Integer -> String
+age' x
+    | x < 13 = "Youngen'"
+    | x < 18 = "Not adult yet"
+    | x < 60 = "Adult"
+    | otherwise = "Older"
+
+max' :: (Ord x) => [x] -> x
+max' [] = error "Empty List"
+max' [x] = x
+max' (x: xs)
+    | x > maxTail = x
+    | otherwise = maxTail
+    where maxTail = max' xs
+
+rep :: (Num x, Ord x) => x -> y -> [y]
+rep n x
+    | n <= 0 = []
+    | otherwise = x:rep (n-1) x
+
+take' :: (Num i, Ord i) => i -> [a] -> [a]
+take' n _
+    | n <= 0 = []
+take' _ [] = []
+take' n (x:xs) = x:take' (n-1) xs
+
+
+reverse' :: [a] -> [a]
+reverse' [] = []
+reverse' (x:xs) = reverse' xs ++ [x]
+
+elem' :: Eq a => a -> [a] -> Bool
+elem' a [] = False
+elem' a (x:xs)
+    | a == x = True
+    | otherwise = elem' a xs
+
+
+quicksort' :: Ord a => [a] -> [a]
+quicksort' [] = []
+quicksort' (x:xs) =
+    let smallerSorted = quicksort' [a | a <- xs, a <= x]
+        biggerSorted = quicksort' [a | a <- xs, a > x]
+    in smallerSorted ++ [x] ++ biggerSorted
