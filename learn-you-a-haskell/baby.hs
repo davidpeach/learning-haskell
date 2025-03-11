@@ -100,3 +100,25 @@ chain n
 numLongChains :: Int
 numLongChains = length (filter isLong (map chain [1..100]))
     where isLong xs = length xs > 15
+
+zipWith' :: (a -> b -> c) -> [a] -> [b] -> [c]
+zipWith' _ _ [] = []
+zipWith' _ [] _ = []
+zipWith' f (x:xs) (y:ys) = f x y : zipWith f xs ys
+
+map' :: (a -> b) -> [a] -> [b]
+map' _ [] = []
+map' f (x:xs) = f x : map' f xs
+
+filter' :: (a -> Bool) -> [a] -> [a]
+filter' _ [] = []
+filter' f (x:xs)
+    | f x = x : filter' f xs
+    | otherwise = filter' f xs
+
+qs' :: Ord a => [a] -> [a]
+qs' [] = []
+qs' (x:xs) =
+    let smallerSorted = qs' (filter' (<= x) xs)
+        biggerSorted = qs' (filter' (>x) xs)
+    in smallerSorted ++ [x] ++ biggerSorted
