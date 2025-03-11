@@ -83,3 +83,20 @@ quicksort' (x:xs) =
     let smallerSorted = quicksort' [a | a <- xs, a <= x]
         biggerSorted = quicksort' [a | a <- xs, a > x]
     in smallerSorted ++ [x] ++ biggerSorted
+
+largestDiv :: (Integral a) => a
+largestDiv  = head (filter p [10000,9999..])
+    where p x = mod x 3829 == 0
+
+smallOddSquares = sum (takeWhile (< 10000) (filter odd (map (^2) [1..])))
+smallOddSquares' = sum ( takeWhile (<10000) [n^2 | n <- [1..], odd (n^2)])
+
+chain :: (Integral a) => a -> [a]
+chain 1 = [1]
+chain n
+    | even n = n:chain  (div n 2)
+    | odd n = n:chain (n*3 + 1)
+
+numLongChains :: Int
+numLongChains = length (filter isLong (map chain [1..100]))
+    where isLong xs = length xs > 15
